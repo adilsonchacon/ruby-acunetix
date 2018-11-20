@@ -3,6 +3,8 @@ require 'nokogiri'
 require File.join(File.dirname(__FILE__), 'ruby_acunetix', 'version')
 require File.join(File.dirname(__FILE__), 'ruby_acunetix', 'ra_cvss')
 require File.join(File.dirname(__FILE__), 'ruby_acunetix', 'ra_cvss3')
+require File.join(File.dirname(__FILE__), 'ruby_acunetix', 'ra_cve')
+require File.join(File.dirname(__FILE__), 'ruby_acunetix', 'ra_cwe')
 require File.join(File.dirname(__FILE__), 'ruby_acunetix', 'ra_reference')
 require File.join(File.dirname(__FILE__), 'ruby_acunetix', 'ra_report_item')
 
@@ -19,10 +21,10 @@ module RubyAcunetix
       end
       
       cwe = xml_report_item.css('CWEList')
-      report_item.send("cwe=", cwe.css('CWE').text) if !cwe.nil?
+      report_item.cwe = RaCwe.parse(cwe.css('CWE')) if !cwe.nil?
 
       cve = xml_report_item.css('CVEList')
-      report_item.send("cve=", cwe.css('CVE').text) if !cwe.nil?
+      report_item.cve = RaCve.parse(cve.css('CVE')) if !cve.nil?
 
       cvss = xml_report_item.css('CVSS')
       report_item.cvss = RaCvss.parse(cvss) if !cvss.nil? 
@@ -42,7 +44,7 @@ module RubyAcunetix
       report_items.push report_item
     end
     
-    return report_items
+    report_items
   end
 
   def self.ra_underscore(value)

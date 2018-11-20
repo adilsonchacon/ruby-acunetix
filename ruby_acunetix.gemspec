@@ -3,7 +3,7 @@ require 'ruby_acunetix/version'
 
 Gem::Specification.new do |s|
   s.name = "ruby_acunetix"
-  s.version = RubyBurp::VERSION
+  s.version = RubyAcunetix::VERSION
   s.platform = Gem::Platform::RUBY
   s.licenses = ['MIT']
   s.authors = ["Adilson Chacon"]
